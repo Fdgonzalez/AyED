@@ -31,9 +31,7 @@ public class SinglyLinkedListSet<T> implements Set<T> {
         return temp != null && contains(temp, first);
     }
     private boolean contains(T elem, Node<T> current) {
-        if (current == null)
-            return false;
-        return current.elem == elem || contains(elem, current.tail);
+        return current != null && (current.elem == elem || contains(elem, current.tail));
     }
 
     @Override
