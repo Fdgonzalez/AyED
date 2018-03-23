@@ -29,7 +29,7 @@ public class SinglyLinkedListSortedSet<T> implements SortedSet<T> {
     @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
         T temp = (T) o;
-        return temp != null && contains(temp,first);
+        return temp != null && comparator.compare(temp, last.elem) <= 0 && contains(temp, first);
     }
     private boolean contains(T elem, Node<T> current) {
         return current != null && (current.elem == elem || contains(elem, current.tail));
