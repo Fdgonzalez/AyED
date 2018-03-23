@@ -2,14 +2,17 @@ package Lists;
 
 import java.util.*;
 
-public class SinglyLinkedListSortedSet<T> implements Set<T> {
+public class SinglyLinkedListSortedSet<T> implements SortedSet<T> {
    private int size;
    private Node<T> first;
+   private Node<T> last;
+   private Node<T> prev; // auxiliary pointer to update last when removing the last element
    private Comparator<T> comparator;
 
    public SinglyLinkedListSortedSet(Comparator<T> comparator){
        this.size = 0;
        this.first = null;
+       this.last = null;
        this.comparator = comparator;
    }
     @Override
@@ -79,7 +82,8 @@ public class SinglyLinkedListSortedSet<T> implements Set<T> {
     private Node<T> add(T t, Node<T> current){
        if(current == null) {
            size++;
-           return new Node<T>(t, null);
+           last = new Node<T>(t, null);
+           return last;
        }
        int comparison = comparator.compare(current.elem,t);
        if(comparison == 0) // Sets can't have duplicate elements
@@ -107,23 +111,33 @@ public class SinglyLinkedListSortedSet<T> implements Set<T> {
        int comparison = comparator.compare(current.elem,t);
        if(comparison == 0){
            size--;
+           if (current.tail == null)
+               last = prev;
            return current.tail;
        }
        if(comparison > 0){// element is not on list
            return current;
        }
+       prev = current;
        current.tail = remove(t,current.tail);
        return current;
 
     }
     @Override
     public boolean containsAll(Collection<?> collection) {
-        return false;
+       for(Object o : collection){
+           if(!contains(o))
+               return false;
+       }
+       return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        return false;
+       int temp = size;
+       for(T t:collection)
+           add(t);
+        return temp>size;
     }
 
     @Override
@@ -133,12 +147,58 @@ public class SinglyLinkedListSortedSet<T> implements Set<T> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        return false;
+       int temp = size;
+       for(Object o: collection){
+            remove(o);
+        }
+        return size<temp;
     }
 
     @Override
     public void clear() {
         first = null;
+    }
+
+    @Override
+    public Comparator<? super T> comparator() {
+        return comparator;
+    }
+
+    @Override
+    public SortedSet<T> subSet(T t, T e1) {
+        SinglyLinkedListSortedSet<T> result = new SinglyLinkedListSortedSet<>(comparator);
+        for(T elem:this)
+            if(comparator.compare(elem,t) < 0 && comparator.compare(elem,e1) > 0)
+                result.add(elem);
+        return result;
+    }
+
+    @Override
+    public SortedSet<T> headSet(T t) {
+        SinglyLinkedListSortedSet<T> result = new SinglyLinkedListSortedSet<>(comparator);
+        for(T elem:this)
+            if(comparator.compare(elem,t) < 0)
+                result.add(elem);
+        return result;
+    }
+
+    @Override
+    public SortedSet<T> tailSet(T t) {
+        SinglyLinkedListSortedSet<T> result = new SinglyLinkedListSortedSet<>(comparator);
+        for(T elem:this)
+            if(comparator.compare(elem,t) > 0)
+                result.add(elem);
+        return result;
+    }
+
+    @Override
+    public T first() {
+        return first.elem;
+    }
+
+    @Override
+    public T last() {
+        return null;
     }
 
     private static class Node<T> {
