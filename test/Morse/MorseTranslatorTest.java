@@ -8,11 +8,13 @@ public class MorseTranslatorTest {
 
     @Test
     public void morseToText() {
-        assertEquals(".... --- .-.. .-  -- ..- -. -.. ---", MorseTranslator.textToMorse("HOLA MUNDO"));
+        MorseTranslator translator = new MorseTranslator();
+        assertEquals(".... --- .-.. .-  -- ..- -. -.. ---", translator.textToMorse("HOLA MUNDO"));
     }
 
     @Test
     public void textToMorse() {
-        assertEquals("HOLA MUNDO", MorseTranslator.morseToText(".... --- .-.. .-  -- ..- -. -.. ---"));
+        MorseTranslator translator = new MorseTranslator();
+        assertEquals("HOLA MUNDO", translator.morseToText(".... --- .-.. .-  -- ..- -. -.. ---"));
     }
 }

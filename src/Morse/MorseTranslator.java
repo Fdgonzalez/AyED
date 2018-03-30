@@ -3,9 +3,14 @@ package Morse;
 import java.util.Scanner;
 
 public class MorseTranslator {
-    /* B) Hacer el traductor al revés, del código Morse a texto. */
+    private MorseTree tree;
 
-    public static String morseToText(String morse){
+    public MorseTranslator() {
+        tree = new MorseTree();
+    }
+
+    /* B) Hacer el traductor al revés, del código Morse a texto. */
+    public String morseToText(String morse){
         StringBuilder temp;
         StringBuilder result = new StringBuilder();
         for(int i=0;i<morse.length(); ){
@@ -22,11 +27,15 @@ public class MorseTranslator {
         return result.toString().trim();
     }
 
+    private String toText(String s) {
+        return tree.get(s);
+    }
+
     /* A) Programar un traductor de texto a código Morse. ¿Alcanza con dos símbolos o
     deberíamos agregar otros? */
     // No alcanza con dos simbolos (punto y linea) ya que se necesita un tercer simbolo (espacio) para codificar los silencios
 
-    public static String textToMorse(String text){
+    public String textToMorse(String text){
         Scanner sc = new Scanner(text); //default scanner uses whitespace as the delimiter so it should separate the text into words
         StringBuilder sb = new StringBuilder();
         while(sc.hasNext()) {
@@ -36,70 +45,24 @@ public class MorseTranslator {
         return sb.toString().trim();
     }
 
-    private static String toText(String morse) {
-        switch (morse){
-            case ".-" : return "A";
-            case "-..." : return "B";
-            case "-.-." : return "C";
-            case "----" : return "CH";
-            case "-.." : return "D";
-            case "." : return "E";
-            case "..-." : return "F";
-            case "--." : return "G";
-            case "...." : return "H";
-            case ".." : return "I";
-            case ".---" : return "J";
-            case "-.-" : return "K";
-            case ".-.." : return "L";
-            case "--" : return "M";
-            case "-." : return "N";
-            case "--.--" : return "Ñ";
-            case "---" : return "O";
-            case ".--." : return "P";
-            case "--.-" : return "Q";
-            case ".-." : return "R";
-            case "..." : return "S";
-            case "-" : return "T";
-            case "..-" : return "U";
-            case "...-" : return "V";
-            case ".--" : return "W";
-            case "-..-" : return "X";
-            case "-.--" : return "Y";
-            case "--.." : return "Z";
-            case "-----" : return "0";
-            case ".----" : return "1";
-            case "..---" : return "2";
-            case "...--" : return "3";
-            case "....-" : return "4";
-            case "....." : return "5";
-            case "-...." : return "6";
-            case "--..." : return "7";
-            case "---.." : return "8";
-            case "----." : return "9";
-            case ".-.-.-" : return ".";
-            case "--..--" : return ",";
-            case "..--.." : return "?";
-            case ".-..-." : return "\"";
-            default: return "";
-        }
-    }
-    public static String toMorse(String input){//Convert one word to a morse code string
+
+    public  String toMorse(String input){//Convert one word to a morse code string
         String text = input.toUpperCase();
         StringBuilder sb = new StringBuilder();
         String temp;
         for(int i=0;i<text.length();i++){
             if(text.charAt(i) == 'C' && text.charAt(i+1) == 'H') {
-                sb.append(toMorseChar("CH")); // CH is a special case because there is no ascii for CH
+                sb.append(toMorseCode("CH")); // CH is a special case because there is no ascii for CH
                 i++;
             }
             else
-                sb.append(toMorseChar("" + text.charAt(i)));
+                sb.append(toMorseCode("" + text.charAt(i)));
 
             sb.append(" ");// each character is separated by a small silence
         }
         return sb.toString();
     }
-    public static String toMorseChar(String text){
+    public static String toMorseCode(String text){
         switch (text){
             case "A" : return ".-";
             case "B" : return "-...";
