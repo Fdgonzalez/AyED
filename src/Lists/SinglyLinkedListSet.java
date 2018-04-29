@@ -35,7 +35,7 @@ public class SinglyLinkedListSet<T> implements Set<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<T> iterator() {//no funciona si se remueve el elemento siguiente
         return new Iterator<T>() {
             Node<T> current = first;
             @Override
@@ -95,7 +95,7 @@ public class SinglyLinkedListSet<T> implements Set<T> {
         first = remove(temp, first);
         return tempSize>size;
     }
-    public Node<T> remove(T elem, Node<T> current){
+    private Node<T> remove(T elem, Node<T> current){
         if(current == null)
             return null;
         if(elem.equals(current.elem)){
@@ -110,7 +110,7 @@ public class SinglyLinkedListSet<T> implements Set<T> {
     @SuppressWarnings("unchecked") // No se puede implementar con el generic
     public boolean addAll(Collection collection) {
         for(Object o : collection){
-            add((T) o);//que lluevan los casts!
+            add((T) o);
         }
         return false;
     }

@@ -77,7 +77,5 @@ public class MorseTree {
         String character;
         Node dot;
         Node dash;
-        public Node( ){
-        }
     }
 }

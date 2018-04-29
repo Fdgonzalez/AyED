@@ -74,4 +74,21 @@ public class SinglyLinkedListSortedSetTest {
         assertEquals(true,test.isEmpty());
 
     }
+
+    @Test
+    public void union() {
+        SinglyLinkedListSortedSet<Integer> test = new SinglyLinkedListSortedSet<Integer>(Integer::compareTo);
+        test.add(0);
+        test.add(1);
+        test.add(2);
+        SinglyLinkedListSortedSet<Integer> test2 = new SinglyLinkedListSortedSet<Integer>(Integer::compareTo);
+        test2.add(1);
+        test2.add(5);
+        test2.add(10);
+        SinglyLinkedListSortedSet<Integer> test3 = new SinglyLinkedListSortedSet<Integer>(Integer::compareTo);
+        test3.add(20);
+        test3.add(4);
+        test3.add(6);
+        SinglyLinkedListSortedSet<Integer> union = SinglyLinkedListSortedSet.union(test,test2,test3);
+    }
 }

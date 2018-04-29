@@ -1,5 +1,6 @@
 package Lists;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class SinglyLinkedListSortedSet<T> implements SortedSet<T> {
@@ -172,6 +173,14 @@ public class SinglyLinkedListSortedSet<T> implements SortedSet<T> {
                 result.add(elem);
         return result;
     }
+    private void addAtEnd(T elem){
+       if(last == null) {
+           last = new Node<>(elem, null);
+           return;
+       }
+       last.tail = new Node<>(elem,null);
+       last = last.tail;
+    }
 
     @Override
     public SortedSet<T> headSet(T t) {
@@ -198,8 +207,37 @@ public class SinglyLinkedListSortedSet<T> implements SortedSet<T> {
 
     @Override
     public T last() {
-        return null;
+        return last.elem;
     }
+
+    public static <T extends Comparable<? super T>> SinglyLinkedListSortedSet<T> union(SinglyLinkedListSortedSet<T>... lists){
+       int size = lists.length;
+       int min;
+       SinglyLinkedListSortedSet<T> result = new SinglyLinkedListSortedSet<>(lists[0].comparator);
+       Node<T>[] nodes = (Node<T>[]) Array.newInstance(Node.class, size);
+       int i = 0;
+       for(SinglyLinkedListSortedSet set : lists){
+           nodes[i++] = set.first;
+       }
+
+        Comparator<T> comparator = lists[0].comparator;
+       do{
+           min = -1;
+           for(int k=0;k<size;k++){
+               if(nodes[k] != null) {
+                   if (min == -1 || comparator.compare(nodes[k].elem, nodes[min].elem) < 0) {
+                       min = k;
+                   }else if(nodes[k].elem.equals(nodes[min].elem))
+                       nodes[k] = nodes[k].tail;
+               }
+           }
+           if(min != -1) {
+               result.addAtEnd(nodes[min].elem);
+            nodes[min] = nodes[min].tail;
+           }
+       }while(min != -1);
+    return result;
+   }
 
     private static class Node<T> {
         T elem;
