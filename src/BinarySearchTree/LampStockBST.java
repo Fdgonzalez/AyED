@@ -3,18 +3,23 @@ package BinarySearchTree;
 import java.util.NoSuchElementException;
 
 /**
- * <h1>LampStockBST</h1>
+ * LampStockBST
  * keeps track of Lamp Stock using a binary search tree internally
  * @author Facundo Gonzalez
  **/
-public class LampStockBST {
-    private BinarySearchTree<LampStock> tree;
-    public LampStockBST(){
-        tree = new BinarySearchTree<>(new LampComparator());
+public class LampStockBST extends BinarySearchTree<Lamp>{
+
+    /**
+     * Constructs an empty binary search tree using the Lamp comparator
+     *
+     */
+    public LampStockBST() {
+        super(new LampComparatorByCode());
     }
-    public void add(LampStock l){
+
+    public void add(Lamp l){
         try {
-            tree.insert(l);
+            insert(l);
         } catch (ElementAlreadyInTreeException e) {
             System.out.println("El stock de la lampara ingresada ya se encuentra en el registro");
             System.out.println("Para modificarlo use el metodo modifiy() ");
@@ -53,20 +58,18 @@ public class LampStockBST {
     /**
      * prints all entries in the tree ordered by lamp code
      */
-    public void printOrderedByCode(){
-        tree.printInOrder();
-    }
-
-    public LampStock search(String lampCode) throws InvalidCodeException {
-        LampStock temp;
-        try {
-            //Crea un objeto que solo se usa para buscar el objeto guardado con el mismo codigo
-            //ya que el arbol esta ordenado por codigo los demas atributos no importan para la busqueda
-            temp = new LampStock(lampCode,0,"temp",0);
-        } catch (InvalidTypeException e) {
-            e.printStackTrace(); // solo puede suceder si esta mal implementado el constructor
-            temp = null;
-        }
-        return tree.search(temp);
+    public void printInformation(){ printInOrder();}
+    /**
+     * Returns the Lamp stored in the tree with the code given
+     * @param lampCode
+     * @return the lamp with the code given
+     * @throws InvalidCodeException if the code to search is not five characters in length
+     * @throws NoSuchElementException if the Lamp is not in the tree
+     */
+    public Lamp search(String lampCode) throws InvalidCodeException {
+        Lamp temp;
+        //Creates an object with only a code to search the tree, as this tree is ordered by code the other attributes don't matter for the search
+        temp = new Lamp(lampCode);
+        return search(temp);
     }
 }

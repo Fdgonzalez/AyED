@@ -1,6 +1,6 @@
 package BinarySearchTree;
 
-public class LampStock{
+public class Lamp {
     private String code;
     private int watts;
     private String type;
@@ -12,7 +12,7 @@ public class LampStock{
      * @param type lamp type, at most 10 characters long
      * @param quantity the ammount of lamps of this type in stock
      */
-    public LampStock(String code, int watts, String type, int quantity) throws InvalidCodeException, InvalidTypeException {
+    public Lamp(String code, int watts, String type, int quantity) throws InvalidCodeException, InvalidTypeException {
         if(code.length() != 5)
             throw new InvalidCodeException();
         this.code = code;
@@ -21,6 +21,16 @@ public class LampStock{
             throw new InvalidTypeException();
         this.type = type;
         this.quantity = quantity;
+    }
+
+    /**
+     * Construct a Lamp that only has a code to use for searching for other Lamps with the same code
+     * @return
+     */
+    public Lamp(String code) throws InvalidCodeException {
+        if(code.length() != 5)
+            throw new InvalidCodeException();
+        this.code = code;
     }
 
     public String getCode() {
@@ -51,6 +61,10 @@ public class LampStock{
             throw new InvalidTypeException();
         this.type = type;
     }
+
+    /**
+     * Returns this lamp's information on a String
+     */
     @Override
     public String toString(){
         return "Codigo de lampara " + code + ":\n" +
