@@ -1,6 +1,6 @@
 package TP07;
 
-public class Lamp {
+public class Lamp implements Comparable<Lamp>{
     private String code;
     private int watts;
     private String type;
@@ -10,10 +10,10 @@ public class Lamp {
      * @param code product code, MUST be 5 characters long
      * @param watts integer
      * @param type lamp type, at most 10 characters long
-     * @param quantity the ammount of lamps of this type in stock
+     * @param quantity the amount of lamps with this code in stock
      */
     public Lamp(String code, int watts, String type, int quantity) throws InvalidCodeException, InvalidTypeException {
-        if(code.length() != 5)
+        if(code == null || code.length() != 5)
             throw new InvalidCodeException();
         this.code = code;
         this.watts = watts;
@@ -25,7 +25,6 @@ public class Lamp {
 
     /**
      * Construct a Lamp that only has a code to use for searching for other Lamps with the same code
-     * @return
      */
     public Lamp(String code) throws InvalidCodeException {
         if(code.length() != 5)
@@ -70,6 +69,17 @@ public class Lamp {
         return "Codigo de lampara " + code + ":\n" +
                 "La lampara es de " + watts + " Watts.\n" +
                 "La lampara es de tipo " + type + ".\n" +
-                "El stock de la lampara es de "+ quantity +" unidades.\n";
+                "El stock de la lampara es de "+ quantity +" unidades.";
+    }
+    /**
+     * compare's lamps based on their codes comparing the ascii value of the characters
+     * note that this doesn't mean that it uses alphabetical order as in ascii the code for
+     * a (97) is greater than the code for B (66)
+     * @param lamp lamp to compare to
+     * @return 0 if the lamp's codes are equal, < 0 if lamp2's code is greater than lamp 1's code and > 0 if lamp1's code is greater than lamp2's code
+     */
+    @Override
+    public int compareTo(Lamp lamp) {
+        return this.code.compareTo(lamp.getCode());
     }
 }
