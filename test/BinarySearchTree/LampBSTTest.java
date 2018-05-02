@@ -4,14 +4,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class LampStockBSTTest {
+public class LampBSTTest {
 
     @Test
     public void modify() throws InvalidCodeException, InvalidTypeException {
         LampStockBST stock = new LampStockBST();
-        stock.add(new LampStock("aaaaa",100,"Tipo A",10));
-        stock.add(new LampStock("aaaab",110,"Tipo B",12));
-        stock.add(new LampStock("aaaac",130,"Tipo C",14));
+        stock.add(new Lamp("aaaaa",100,"Tipo A",10));
+        stock.add(new Lamp("aaaab",110,"Tipo B",12));
+        stock.add(new Lamp("aaaac",130,"Tipo C",14));
         assertEquals(10,stock.search("aaaaa").getStock());
         stock.modifyStock("aaaaa",5);
         assertEquals(5,stock.search("aaaaa").getStock());
@@ -22,11 +22,14 @@ public class LampStockBSTTest {
     }
 
     @Test
-    public void printOrderedByCode() throws InvalidCodeException, InvalidTypeException {
+    public void testOrder() throws InvalidCodeException, InvalidTypeException {
         LampStockBST stock = new LampStockBST();
-        stock.add(new LampStock("00001",110,"Tipo B",12));
-        stock.add(new LampStock("00000",100,"Tipo A",10));
+        stock.add(new Lamp("00001",110,"Tipo B",12));
+        stock.add(new Lamp("00002",110,"Tipo B",12));
+        stock.add(new Lamp("00000",110,"Tipo B",12));
+        stock.add(new Lamp("00003",100,"Tipo A",10));
+        stock.add(new Lamp("00004",100,"Tipo A",10));
 
-        stock.printOrderedByCode();
+        stock.printInformation();
     }
 }

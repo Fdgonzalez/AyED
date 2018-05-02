@@ -2,7 +2,7 @@ package BinarySearchTree;
 
 import java.util.Comparator;
 
-public class LampComparator implements Comparator<LampStock> {
+public class LampComparatorByCode implements Comparator<Lamp> {
 
     /**
      * compare's lamps based on their codes comparing the ascii value of the characters
@@ -13,7 +13,7 @@ public class LampComparator implements Comparator<LampStock> {
      * @return 0 if the lamp's codes are equal, < 0 if lamp2's code is greater than lamp 1's code and > 0 if lamp1's code is greater than lamp2's code
      */
     @Override
-    public int compare(LampStock lamp, LampStock lamp2) {
+    public int compare(Lamp lamp, Lamp lamp2) {
        return lamp.getCode().compareTo(lamp2.getCode());
     }
 }
